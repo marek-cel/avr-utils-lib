@@ -18,10 +18,10 @@
 
 #define LCD_PIN_RS 14
 #define LCD_PIN_EN 15
-#define LCD_PIN_D4 18
-#define LCD_PIN_D5 19
-#define LCD_PIN_D6 20
-#define LCD_PIN_D7 21
+#define LCD_PIN_D4 16
+#define LCD_PIN_D5 17
+#define LCD_PIN_D6 18
+#define LCD_PIN_D7 19
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -39,12 +39,12 @@ LCD _lcd( LCD_PIN_RS, LCD_PIN_EN, LCD_PIN_D4, LCD_PIN_D5, LCD_PIN_D6, LCD_PIN_D7
 
 ISR( PCINT2_vect )
 {
-    _pins2_new = *getPinPIN( ENCODER_1_PIN_A );
+    _pins2_new = *getRegPIN( ENCODER_1_PIN_A );
 
     uint8_t diff = _pins2_new ^ _pins2_old;
 
-    if ( ( diff & getPinMask( ENCODER_1_PIN_A ) )
-      || ( diff & getPinMask( ENCODER_1_PIN_B ) ) )
+    if ( ( diff & getPinBitMask( ENCODER_1_PIN_A ) )
+      || ( diff & getPinBitMask( ENCODER_1_PIN_B ) ) )
     {
         switch( _encoder_1.read_4() )
         {
@@ -71,7 +71,7 @@ int main()
 
     _lcd.init();
 
-    _pins2_new = *getPinPIN( ENCODER_1_PIN_A );
+    _pins2_new = *getRegPIN( ENCODER_1_PIN_A );
 
     sei();
 

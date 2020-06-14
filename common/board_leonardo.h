@@ -123,13 +123,9 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-#ifndef PINS_MEGA_H
-#define PINS_MEGA_H
+#ifndef BOARD_LEONARDO_H
+#define BOARD_LEONARDO_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define BUILT_IN_LED_PIN 13
-
-////////////////////////////////////////////////////////////////////////////////
-
-#endif // PINS_MEGA_H
+#endif // BOARD_LEONARDO_H

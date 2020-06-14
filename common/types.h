@@ -141,8 +141,6 @@ typedef volatile uint8_t* PtrPCMSK;
 
 typedef uint8_t  BitMask;
 
-typedef void (*PtrFun)();
-
 ////////////////////////////////////////////////////////////////////////////////
 
 #endif // TYPES_H

@@ -1,15 +1,16 @@
 common/all.h
+common/board.h
+common/board_leonardo.h
+common/board_leonardo.cpp
+common/board_mega.h
+common/board_mega.cpp
+common/board_standard.h
+common/board_standard.cpp
 common/defs.h
 common/interrupts.h
 common/interrupts.cpp
 common/pins.h
 common/pins.cpp
-common/pins_leonardo.h
-common/pins_leonardo.cpp
-common/pins_mega.h
-common/pins_mega.cpp
-common/pins_standard.h
-common/pins_standard.cpp
 common/types.h
 
 EEPROM/EEPROM.h

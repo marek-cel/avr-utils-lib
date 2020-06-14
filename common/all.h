@@ -129,6 +129,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <common/defs.h>
+#include <common/board.h>
 #include <common/interrupts.h>
 #include <common/pins.h>
 #include <common/types.h>

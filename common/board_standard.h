@@ -123,13 +123,167 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-#ifndef PINS_STANDARD_H
-#define PINS_STANDARD_H
+#ifndef BOARD_STANDARD_H
+#define BOARD_STANDARD_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define BUILT_IN_LED_PIN 13
+#include <avr/interrupt.h>
+#include <avr/io.h>
+
+#include <common/types.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // PINS_STANDARD_H
+#define BUILT_IN_LED_PIN_NO 13
+
+////////////////////////////////////////////////////////////////////////////////
+
+#define _DDR_D0     DDRD    /* 0  - PD0 */
+#define _DDR_D1     DDRD    /* 1  - PD1 */
+#define _DDR_D2     DDRD    /* 2  - PD2 */
+#define _DDR_D3     DDRD    /* 3  - PD3 */
+#define _DDR_D4     DDRD    /* 4  - PD4 */
+#define _DDR_D5     DDRD    /* 5  - PD5 */
+#define _DDR_D6     DDRD    /* 6  - PD6 */
+#define _DDR_D7     DDRD    /* 7  - PD7 */
+#define _DDR_D8     DDRB    /* 8  - PB0 */
+#define _DDR_D9     DDRB    /* 9  - PB1 */
+#define _DDR_D10    DDRB    /* 10 - PB2 */
+#define _DDR_D11    DDRB    /* 11 - PB3 */
+#define _DDR_D12    DDRB    /* 12 - PB4 */
+#define _DDR_D13    DDRB    /* 13 - PB5 */
+#define _DDR_D14    DDRC    /* 14 - PC0 - A0 */
+#define _DDR_D15    DDRC    /* 15 - PC1 - A1 */
+#define _DDR_D16    DDRC    /* 16 - PC2 - A2 */
+#define _DDR_D17    DDRC    /* 17 - PC3 - A3 */
+#define _DDR_D18    DDRC    /* 18 - PC4 - A4 */
+#define _DDR_D19    DDRC    /* 19 - PC5 - A5 */
+
+////////////////////////////////////////////////////////////////////////////////
+
+#define _PCIE_D0    PCIE2   /* 0  - PD0 */
+#define _PCIE_D1    PCIE2   /* 1  - PD1 */
+#define _PCIE_D2    PCIE2   /* 2  - PD2 */
+#define _PCIE_D3    PCIE2   /* 3  - PD3 */
+#define _PCIE_D4    PCIE2   /* 4  - PD4 */
+#define _PCIE_D5    PCIE2   /* 5  - PD5 */
+#define _PCIE_D6    PCIE2   /* 6  - PD6 */
+#define _PCIE_D7    PCIE2   /* 7  - PD7 */
+#define _PCIE_D8    PCIE0   /* 8  - PB0 */
+#define _PCIE_D9    PCIE0   /* 9  - PB1 */
+#define _PCIE_D10   PCIE0   /* 10 - PB2 */
+#define _PCIE_D11   PCIE0   /* 11 - PB3 */
+#define _PCIE_D12   PCIE0   /* 12 - PB4 */
+#define _PCIE_D13   PCIE0   /* 13 - PB5 */
+#define _PCIE_D14   PCIE1   /* 14 - PC0 - A0 */
+#define _PCIE_D15   PCIE1   /* 15 - PC1 - A1 */
+#define _PCIE_D16   PCIE1   /* 16 - PC2 - A2 */
+#define _PCIE_D17   PCIE1   /* 17 - PC3 - A3 */
+#define _PCIE_D18   PCIE1   /* 18 - PC4 - A4 */
+#define _PCIE_D19   PCIE1   /* 19 - PC5 - A5 */
+
+////////////////////////////////////////////////////////////////////////////////
+
+#define _PCINT_D0   PCINT16 /* 0  - PD0 */
+#define _PCINT_D1   PCINT17 /* 1  - PD1 */
+#define _PCINT_D2   PCINT18 /* 2  - PD2 */
+#define _PCINT_D3   PCINT19 /* 3  - PD3 */
+#define _PCINT_D4   PCINT20 /* 4  - PD4 */
+#define _PCINT_D5   PCINT21 /* 5  - PD5 */
+#define _PCINT_D6   PCINT22 /* 6  - PD6 */
+#define _PCINT_D7   PCINT23 /* 7  - PD7 */
+#define _PCINT_D8   PCINT0  /* 8  - PB0 */
+#define _PCINT_D9   PCINT1  /* 9  - PB1 */
+#define _PCINT_D10  PCINT2  /* 10 - PB2 */
+#define _PCINT_D11  PCINT3  /* 11 - PB3 */
+#define _PCINT_D12  PCINT4  /* 12 - PB4 */
+#define _PCINT_D13  PCINT5  /* 13 - PB5 */
+#define _PCINT_D14  PCINT8  /* 14 - PC0 - A0 */
+#define _PCINT_D15  PCINT9  /* 15 - PC1 - A1 */
+#define _PCINT_D16  PCINT10 /* 16 - PC2 - A2 */
+#define _PCINT_D17  PCINT11 /* 17 - PC3 - A3 */
+#define _PCINT_D18  PCINT12 /* 18 - PC4 - A4 */
+#define _PCINT_D19  PCINT13 /* 19 - PC5 - A5 */
+
+////////////////////////////////////////////////////////////////////////////////
+
+#define _PCMSK_D0   PCMSK2  /* 0  - PD0 */
+#define _PCMSK_D1   PCMSK2  /* 1  - PD1 */
+#define _PCMSK_D2   PCMSK2  /* 2  - PD2 */
+#define _PCMSK_D3   PCMSK2  /* 3  - PD3 */
+#define _PCMSK_D4   PCMSK2  /* 4  - PD4 */
+#define _PCMSK_D5   PCMSK2  /* 5  - PD5 */
+#define _PCMSK_D6   PCMSK2  /* 6  - PD6 */
+#define _PCMSK_D7   PCMSK2  /* 7  - PD7 */
+#define _PCMSK_D8   PCMSK0  /* 8  - PB0 */
+#define _PCMSK_D9   PCMSK0  /* 9  - PB1 */
+#define _PCMSK_D10  PCMSK0  /* 10 - PB2 */
+#define _PCMSK_D11  PCMSK0  /* 11 - PB3 */
+#define _PCMSK_D12  PCMSK0  /* 12 - PB4 */
+#define _PCMSK_D13  PCMSK0  /* 13 - PB5 */
+#define _PCMSK_D14  PCMSK1  /* 14 - PC0 - A0 */
+#define _PCMSK_D15  PCMSK1  /* 15 - PC1 - A1 */
+#define _PCMSK_D16  PCMSK1  /* 16 - PC2 - A2 */
+#define _PCMSK_D17  PCMSK1  /* 17 - PC3 - A3 */
+#define _PCMSK_D18  PCMSK1  /* 18 - PC4 - A4 */
+#define _PCMSK_D19  PCMSK1  /* 19 - PC5 - A5 */
+
+////////////////////////////////////////////////////////////////////////////////
+
+#define _PIN_D0     PIND    /* 0  - PD0 */
+#define _PIN_D1     PIND    /* 1  - PD1 */
+#define _PIN_D2     PIND    /* 2  - PD2 */
+#define _PIN_D3     PIND    /* 3  - PD3 */
+#define _PIN_D4     PIND    /* 4  - PD4 */
+#define _PIN_D5     PIND    /* 5  - PD5 */
+#define _PIN_D6     PIND    /* 6  - PD6 */
+#define _PIN_D7     PIND    /* 7  - PD7 */
+#define _PIN_D8     PINB    /* 8  - PB0 */
+#define _PIN_D9     PINB    /* 9  - PB1 */
+#define _PIN_D10    PINB    /* 10 - PB2 */
+#define _PIN_D11    PINB    /* 11 - PB3 */
+#define _PIN_D12    PINB    /* 12 - PB4 */
+#define _PIN_D13    PINB    /* 13 - PB5 */
+#define _PIN_D14    PINC    /* 14 - PC0 - A0 */
+#define _PIN_D15    PINC    /* 15 - PC1 - A1 */
+#define _PIN_D16    PINC    /* 16 - PC2 - A2 */
+#define _PIN_D17    PINC    /* 17 - PC3 - A3 */
+#define _PIN_D18    PINC    /* 18 - PC4 - A4 */
+#define _PIN_D19    PINC    /* 19 - PC5 - A5 */
+
+////////////////////////////////////////////////////////////////////////////////
+
+#define _PORT_D0    PORTD   /* 0  - PD0 */
+#define _PORT_D1    PORTD   /* 1  - PD1 */
+#define _PORT_D2    PORTD   /* 2  - PD2 */
+#define _PORT_D3    PORTD   /* 3  - PD3 */
+#define _PORT_D4    PORTD   /* 4  - PD4 */
+#define _PORT_D5    PORTD   /* 5  - PD5 */
+#define _PORT_D6    PORTD   /* 6  - PD6 */
+#define _PORT_D7    PORTD   /* 7  - PD7 */
+#define _PORT_D8    PORTB   /* 8  - PB0 */
+#define _PORT_D9    PORTB   /* 9  - PB1 */
+#define _PORT_D10   PORTB   /* 10 - PB2 */
+#define _PORT_D11   PORTB   /* 11 - PB3 */
+#define _PORT_D12   PORTB   /* 12 - PB4 */
+#define _PORT_D13   PORTB   /* 13 - PB5 */
+#define _PORT_D14   PORTC   /* 14 - PC0 - A0 */
+#define _PORT_D15   PORTC   /* 15 - PC1 - A1 */
+#define _PORT_D16   PORTC   /* 16 - PC2 - A2 */
+#define _PORT_D17   PORTC   /* 17 - PC3 - A3 */
+#define _PORT_D18   PORTC   /* 18 - PC4 - A4 */
+#define _PORT_D19   PORTC   /* 19 - PC5 - A5 */
+
+////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * @brief Returns digital pin number of a given analog pin number.
+ * @param analog_pin analog pin number
+ * @return digital pin number
+ */
+PinNo getPinNoFromAnalog( PinNo analog_pin );
+
+////////////////////////////////////////////////////////////////////////////////
+
+#endif // BOARD_STANDARD_H

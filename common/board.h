@@ -123,51 +123,79 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-#include <USART/USART.h>
-
-#include <avr/io.h>
-#include <avr/interrupt.h>
+#ifndef BOARD_H
+#define BOARD_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-USART::USART()
-{
-    // TODO
-}
+#include <common/defs.h>
+#include <common/types.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void USART::init( unsigned int ubrr )
-{
-    // set baud rate
-    UBRR0H = (unsigned char)( ubrr >> 8 );
-    UBRR0L = (unsigned char)( ubrr );
+#if BOARD_ID == ARDUINO_LEONARDO
+#   include <common/board_leonardo.h>
+#endif
 
-    // enable receiver and transmitter
-    UCSR0B = ( 1 << RXEN0 ) | ( 1 << TXEN0 );
+#if BOARD_ID == ARDUINO_MEGA
+#   include <common/board_mega.h>
+#endif
 
-    // set frame: 8data, 1 stp
-    UCSR0C = ( 1 << UCSZ01 ) | ( 1 << UCSZ00 );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void USART::send( const uint8_t &data )
-{
-    // wait for empty transmit buffer
-    while ( !( UCSR0A & ( 1 << UDRE0 ) ) );
-
-    // Put data into buffer, sends the data
-    UDR0 << data;
-}
+#if BOARD_ID == ARDUINO_UNO || BOARD_ID == ARDUINO_NANO
+#   include <common/board_standard.h>
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 
-uint8_t USART::recv()
-{
-    // wait for data to be received
-    while ( !( UCSR0A & ( 1 << RXC0 ) ) );
+/**
+ * @brief Returns bit mask of a given digital pin number.
+ * @param pin digital pin number
+ * @return bit mask
+ */
+BitMask getPinBitMask( PinNo pin );
 
-    // get and return received data from buffer
-    return UDR0;
-}
+/**
+ * @brief Returns PCINT bit of a given digital pin number.
+ * @param pin digital pin number
+ * @return PCINT bit
+ */
+BitMask getPCINT( PinNo pin );
+
+/**
+ * @brief Returns PCIE bit of a given digital pin number.
+ * @param pin digital pin number
+ * @return PCIE bit
+ */
+BitMask getPCIE( PinNo pin );
+
+/**
+ * @brief Returns Data Direction Register (DDR) pointer of a given digital pin number.
+ * @param pin digital pin number
+ * @return DDR register pointer
+ */
+PtrDDR getRegDDR( PinNo pin );
+
+/**
+ * @brief Returns PCMSK register pointer of a given digital pin number.
+ * @param pin digital pin number
+ * @return PCMSK register pointer
+ */
+PtrPCMSK getRegPCMSK( PinNo pin );
+
+/**
+ * @brief Returns PIN register pointer of a given digital pin number.
+ * @param pin digital pin number
+ * @return PIN register pointer
+ */
+PtrPIN getRegPIN( PinNo pin );
+
+/**
+ * @brief Returns PORT register pointer of a given digital pin number.
+ * @param pin digital pin number
+ * @return PORT register pointer
+ */
+PtrPORT getRegPORT( PinNo pin );
+
+////////////////////////////////////////////////////////////////////////////////
+
+#endif // BOARD_H

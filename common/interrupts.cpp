@@ -128,18 +128,18 @@
 
 #include <avr/interrupt.h>
 
-#include <common/pins.h>
+#include <common/board.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void enablePCINT( PinNo pin )
 {
-    PtrPCMSK ptrPCMSK = getPinPCMSK( pin );
+    PtrPCMSK ptrPCMSK = getRegPCMSK( pin );
 
     if ( ptrPCMSK )
     {
-        PCICR |= getPinPCIE( pin );
-        (*ptrPCMSK) |= getPinPCINT( pin );
+        PCICR |= getPCIE( pin );
+        (*ptrPCMSK) |= getPCINT( pin );
     }
 }
 

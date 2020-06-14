@@ -132,13 +132,13 @@
 
 int main()
 {
-    setPinMode( BUILT_IN_LED_PIN, MODE_OUTPUT );
+    setPinMode( BUILT_IN_LED_PIN_NO, MODE_OUTPUT );
 
     while ( 1 )
     {
         _delay_ms( 100 );
-        setPinState( BUILT_IN_LED_PIN, STATE_HIGH );
+        setPinState( BUILT_IN_LED_PIN_NO, STATE_HIGH );
         _delay_ms( 100 );
-        setPinState( BUILT_IN_LED_PIN, STATE_LOW );
+        setPinState( BUILT_IN_LED_PIN_NO, STATE_LOW );
     }
 }

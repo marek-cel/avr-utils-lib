@@ -2,11 +2,11 @@
 # Uno
 ################################################################################
 
-# BOARD_ID = 1
-# MCU = atmega328p
-# PART = m328p
-# PINS_CPP_DIR = variants/standard/
-# PROGRAMMER = arduino
+BOARD_ID = 1
+MCU = atmega328p
+PART = m328p
+PINS_CPP_DIR = variants/standard/
+PROGRAMMER = arduino
 
 ################################################################################
 # Nano
@@ -21,10 +21,10 @@
 # Leonardo
 ################################################################################
 
-BOARD_ID = 3
-MCU = atmega32u4
-PART = m32u4
-PROGRAMMER = avr109
+# BOARD_ID = 3
+# MCU = atmega32u4
+# PART = m32u4
+# PROGRAMMER = avr109
 
 ################################################################################
 # Mega

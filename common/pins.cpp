@@ -124,15 +124,15 @@
  *     this CC0 or use of the Work.
  ******************************************************************************/
 
-#include <common/pins.h>
+#include <common/board.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void setPinMode( PinNo pin, uint8_t mode )
 {
-    PtrDDR  ptrDDR  = getPinDDR  ( pin );
-    PtrPORT ptrPORT = getPinPORT ( pin );
-    BitMask bitMask = getPinMask ( pin );
+    PtrDDR  ptrDDR  = getRegDDR  ( pin );
+    PtrPORT ptrPORT = getRegPORT ( pin );
+    BitMask bitMask = getPinBitMask( pin );
 
     if ( ptrDDR && ptrPORT )
     {
@@ -160,11 +160,11 @@ void setPinMode( PinNo pin, uint8_t mode )
 
 uint8_t getPinState( PinNo pin )
 {
-    PtrPIN ptrPIN = getPinPIN( pin );
+    PtrPIN ptrPIN = getRegPIN( pin );
 
     if ( ptrPIN )
     {
-        BitMask bitMask = getPinMask( pin );
+        BitMask bitMask = getPinBitMask( pin );
 
         if ( (*ptrPIN) & bitMask )
         {
@@ -179,11 +179,11 @@ uint8_t getPinState( PinNo pin )
 
 void setPinState( PinNo pin, uint8_t state )
 {
-    PtrPORT ptrPORT = getPinPORT( pin );
+    PtrPORT ptrPORT = getRegPORT( pin );
 
     if ( ptrPORT )
     {
-        BitMask bitMask = getPinMask( pin );
+        BitMask bitMask = getPinBitMask( pin );
 
         if ( state )
         {

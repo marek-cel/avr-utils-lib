@@ -123,18 +123,13 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-#include <common/pins.h>
+#include <common/board.h>
 
 #if BOARD_ID == ARDUINO_UNO || BOARD_ID == ARDUINO_NANO
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <avr/interrupt.h>
-#include <avr/io.h>
-
-////////////////////////////////////////////////////////////////////////////////
-
-PinNo getDigitalPinNo( PinNo analog_pin )
+PinNo getDigitalPinFromAnalog( PinNo analog_pin )
 {
     switch ( analog_pin )
     {
@@ -151,115 +146,7 @@ PinNo getDigitalPinNo( PinNo analog_pin )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-PtrPIN getPinPIN( PinNo pin )
-{
-    switch( pin )
-    {
-    case 0:     // PD0
-    case 1:     // PD1
-    case 2:     // PD2
-    case 3:     // PD3
-    case 4:     // PD4
-    case 5:     // PD5
-    case 6:     // PD6
-    case 7:     // PD7
-        return &PIND;
-
-    case 8:     // PB0
-    case 9:     // PB1
-    case 10:    // PB2
-    case 11:    // PB3
-    case 12:    // PB4
-    case 13:    // PB5
-        return &PINB;
-
-    case 14:    // PC0 - A0
-    case 15:    // PC1 - A1
-    case 16:    // PC2 - A2
-    case 17:    // PC3 - A3
-    case 18:    // PC4 - A4
-    case 19:    // PC5 - A5
-        return &PINC;
-    }
-
-    return 0;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-PtrPORT getPinPORT( PinNo pin )
-{
-    switch( pin )
-    {
-    case 0:     // PD0
-    case 1:     // PD1
-    case 2:     // PD2
-    case 3:     // PD3
-    case 4:     // PD4
-    case 5:     // PD5
-    case 6:     // PD6
-    case 7:     // PD7
-        return &PORTD;
-
-    case 8:     // PB0
-    case 9:     // PB1
-    case 10:    // PB2
-    case 11:    // PB3
-    case 12:    // PB4
-    case 13:    // PB5
-        return &PORTB;
-
-    case 14:    // PC0
-    case 15:    // PC1
-    case 16:    // PC2
-    case 17:    // PC3
-    case 18:    // PC4
-    case 19:    // PC5
-        return &PORTC;
-    }
-
-    return 0;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-PtrDDR getPinDDR( PinNo pin )
-{
-    switch( pin )
-    {
-    case 0:     // PD0
-    case 1:     // PD1
-    case 2:     // PD2
-    case 3:     // PD3
-    case 4:     // PD4
-    case 5:     // PD5
-    case 6:     // PD6
-    case 7:     // PD7
-        return &DDRD;
-
-    case 8:     // PB0
-    case 9:     // PB1
-    case 10:    // PB2
-    case 11:    // PB3
-    case 12:    // PB4
-    case 13:    // PB5
-        return &DDRB;
-
-    case 14:    // PC0
-    case 15:    // PC1
-    case 16:    // PC2
-    case 17:    // PC3
-    case 18:    // PC4
-    case 19:    // PC5
-        return &DDRC;
-    }
-
-    return 0;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-BitMask getPinMask( PinNo pin )
+BitMask getPinBitMask( PinNo pin )
 {
     switch( pin )
     {
@@ -290,30 +177,30 @@ BitMask getPinMask( PinNo pin )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-uint8_t getPinPCINT( PinNo pin )
+uint8_t getPCIE( PinNo pin )
 {
     switch( pin )
     {
-        case 0:  return _BV( PCINT16 ); // PD0
-        case 1:  return _BV( PCINT17 ); // PD1
-        case 2:  return _BV( PCINT18 ); // PD2
-        case 3:  return _BV( PCINT19 ); // PD3
-        case 4:  return _BV( PCINT20 ); // PD4
-        case 5:  return _BV( PCINT21 ); // PD5
-        case 6:  return _BV( PCINT22 ); // PD6
-        case 7:  return _BV( PCINT23 ); // PD7
-        case 8:  return _BV( PCINT0  ); // PB0
-        case 9:  return _BV( PCINT1  ); // PB1
-        case 10: return _BV( PCINT2  ); // PB2
-        case 11: return _BV( PCINT3  ); // PB3
-        case 12: return _BV( PCINT4  ); // PB4
-        case 13: return _BV( PCINT5  ); // PB5
-        case 14: return _BV( PCINT8  ); // PC0
-        case 15: return _BV( PCINT9  ); // PC1
-        case 16: return _BV( PCINT10 ); // PC2
-        case 17: return _BV( PCINT11 ); // PC3
-        case 18: return _BV( PCINT12 ); // PC4
-        case 19: return _BV( PCINT13 ); // PC5
+    case 0:  return _BV( _PCIE_D0  );       // PD0
+    case 1:  return _BV( _PCIE_D1  );       // PD1
+    case 2:  return _BV( _PCIE_D2  );       // PD2
+    case 3:  return _BV( _PCIE_D3  );       // PD3
+    case 4:  return _BV( _PCIE_D4  );       // PD4
+    case 5:  return _BV( _PCIE_D5  );       // PD5
+    case 6:  return _BV( _PCIE_D6  );       // PD6
+    case 7:  return _BV( _PCIE_D7  );       // PD7
+    case 8:  return _BV( _PCIE_D8  );       // PB0
+    case 9:  return _BV( _PCIE_D9  );       // PB1
+    case 10: return _BV( _PCIE_D10 );       // PB2
+    case 11: return _BV( _PCIE_D11 );       // PB3
+    case 12: return _BV( _PCIE_D12 );       // PB4
+    case 13: return _BV( _PCIE_D13 );       // PB5
+    case 14: return _BV( _PCIE_D14 );       // PC0
+    case 15: return _BV( _PCIE_D15 );       // PC1
+    case 16: return _BV( _PCIE_D16 );       // PC2
+    case 17: return _BV( _PCIE_D17 );       // PC3
+    case 18: return _BV( _PCIE_D18 );       // PC4
+    case 19: return _BV( _PCIE_D19 );       // PC5
     }
 
     return 0b0;
@@ -321,35 +208,30 @@ uint8_t getPinPCINT( PinNo pin )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-uint8_t getPinPCIE( PinNo pin )
+uint8_t getPCINT( PinNo pin )
 {
     switch( pin )
     {
-    case 0:     // PD0
-    case 1:     // PD1
-    case 2:     // PD2
-    case 3:     // PD3
-    case 4:     // PD4
-    case 5:     // PD5
-    case 6:     // PD6
-    case 7:     // PD7
-        return _BV( PCIE2 );
-
-    case 8:     // PB0
-    case 9:     // PB1
-    case 10:    // PB2
-    case 11:    // PB3
-    case 12:    // PB4
-    case 13:    // PB5
-        return _BV( PCIE0 );
-
-    case 14:    // PC0
-    case 15:    // PC1
-    case 16:    // PC2
-    case 17:    // PC3
-    case 18:    // PC4
-    case 19:    // PC5
-        return _BV( PCIE1 );
+        case 0:  return _BV( _PCINT_D0  ); // PD0
+        case 1:  return _BV( _PCINT_D1  ); // PD1
+        case 2:  return _BV( _PCINT_D2  ); // PD2
+        case 3:  return _BV( _PCINT_D3  ); // PD3
+        case 4:  return _BV( _PCINT_D4  ); // PD4
+        case 5:  return _BV( _PCINT_D5  ); // PD5
+        case 6:  return _BV( _PCINT_D6  ); // PD6
+        case 7:  return _BV( _PCINT_D7  ); // PD7
+        case 8:  return _BV( _PCINT_D8  ); // PB0
+        case 9:  return _BV( _PCINT_D9  ); // PB1
+        case 10: return _BV( _PCINT_D10 ); // PB2
+        case 11: return _BV( _PCINT_D11 ); // PB3
+        case 12: return _BV( _PCINT_D12 ); // PB4
+        case 13: return _BV( _PCINT_D13 ); // PB5
+        case 14: return _BV( _PCINT_D14 ); // PC0
+        case 15: return _BV( _PCINT_D15 ); // PC1
+        case 16: return _BV( _PCINT_D16 ); // PC2
+        case 17: return _BV( _PCINT_D17 ); // PC3
+        case 18: return _BV( _PCINT_D18 ); // PC4
+        case 19: return _BV( _PCINT_D19 ); // PC5
     }
 
     return 0b0;
@@ -357,35 +239,123 @@ uint8_t getPinPCIE( PinNo pin )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-PtrPCMSK getPinPCMSK( PinNo pin )
+PtrDDR getRegDDR( PinNo pin )
 {
     switch( pin )
     {
-    case 0:     // PD0
-    case 1:     // PD1
-    case 2:     // PD2
-    case 3:     // PD3
-    case 4:     // PD4
-    case 5:     // PD5
-    case 6:     // PD6
-    case 7:     // PD7
-        return &PCMSK2;
+        case 0:  return &_DDR_D0;           // PD0
+        case 1:  return &_DDR_D1;           // PD1
+        case 2:  return &_DDR_D2;           // PD2
+        case 3:  return &_DDR_D3;           // PD3
+        case 4:  return &_DDR_D4;           // PD4
+        case 5:  return &_DDR_D5;           // PD5
+        case 6:  return &_DDR_D6;           // PD6
+        case 7:  return &_DDR_D7;           // PD7
+        case 8:  return &_DDR_D8;           // PB0
+        case 9:  return &_DDR_D9;           // PB1
+        case 10: return &_DDR_D10;          // PB2
+        case 11: return &_DDR_D11;          // PB3
+        case 12: return &_DDR_D12;          // PB4
+        case 13: return &_DDR_D13;          // PB5
+        case 14: return &_DDR_D14;          // PC0
+        case 15: return &_DDR_D15;          // PC1
+        case 16: return &_DDR_D16;          // PC2
+        case 17: return &_DDR_D17;          // PC3
+        case 18: return &_DDR_D18;          // PC4
+        case 19: return &_DDR_D19;          // PC5
+    }
 
-    case 8:     // PB0
-    case 9:     // PB1
-    case 10:    // PB2
-    case 11:    // PB3
-    case 12:    // PB4
-    case 13:    // PB5
-        return &PCMSK0;
+    return 0;
+}
 
-    case 14:    // PC0
-    case 15:    // PC1
-    case 16:    // PC2
-    case 17:    // PC3
-    case 18:    // PC4
-    case 19:    // PC5
-        return &PCMSK1;
+////////////////////////////////////////////////////////////////////////////////
+
+PtrPCMSK getRegPCMSK( PinNo pin )
+{
+    switch( pin )
+    {
+        case 0:  return &_PCMSK_D0;         // PD0
+        case 1:  return &_PCMSK_D1;         // PD1
+        case 2:  return &_PCMSK_D2;         // PD2
+        case 3:  return &_PCMSK_D3;         // PD3
+        case 4:  return &_PCMSK_D4;         // PD4
+        case 5:  return &_PCMSK_D5;         // PD5
+        case 6:  return &_PCMSK_D6;         // PD6
+        case 7:  return &_PCMSK_D7;         // PD7
+        case 8:  return &_PCMSK_D8;         // PB0
+        case 9:  return &_PCMSK_D9;         // PB1
+        case 10: return &_PCMSK_D10;        // PB2
+        case 11: return &_PCMSK_D11;        // PB3
+        case 12: return &_PCMSK_D12;        // PB4
+        case 13: return &_PCMSK_D13;        // PB5
+        case 14: return &_PCMSK_D14;        // PC0
+        case 15: return &_PCMSK_D15;        // PC1
+        case 16: return &_PCMSK_D16;        // PC2
+        case 17: return &_PCMSK_D17;        // PC3
+        case 18: return &_PCMSK_D18;        // PC4
+        case 19: return &_PCMSK_D19;        // PC5
+    }
+
+    return 0;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+PtrPIN getRegPIN( PinNo pin )
+{
+    switch( pin )
+    {
+        case 0:  return &_PIN_D0;           // PD0
+        case 1:  return &_PIN_D1;           // PD1
+        case 2:  return &_PIN_D2;           // PD2
+        case 3:  return &_PIN_D3;           // PD3
+        case 4:  return &_PIN_D4;           // PD4
+        case 5:  return &_PIN_D5;           // PD5
+        case 6:  return &_PIN_D6;           // PD6
+        case 7:  return &_PIN_D7;           // PD7
+        case 8:  return &_PIN_D8;           // PB0
+        case 9:  return &_PIN_D9;           // PB1
+        case 10: return &_PIN_D10;          // PB2
+        case 11: return &_PIN_D11;          // PB3
+        case 12: return &_PIN_D12;          // PB4
+        case 13: return &_PIN_D13;          // PB5
+        case 14: return &_PIN_D14;          // PC0
+        case 15: return &_PIN_D15;          // PC1
+        case 16: return &_PIN_D16;          // PC2
+        case 17: return &_PIN_D17;          // PC3
+        case 18: return &_PIN_D18;          // PC4
+        case 19: return &_PIN_D19;          // PC5
+    }
+
+    return 0;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+PtrPORT getRegPORT( PinNo pin )
+{
+    switch( pin )
+    {
+        case 0:  return &_PORT_D0;          // PD0
+        case 1:  return &_PORT_D1;          // PD1
+        case 2:  return &_PORT_D2;          // PD2
+        case 3:  return &_PORT_D3;          // PD3
+        case 4:  return &_PORT_D4;          // PD4
+        case 5:  return &_PORT_D5;          // PD5
+        case 6:  return &_PORT_D6;          // PD6
+        case 7:  return &_PORT_D7;          // PD7
+        case 8:  return &_PORT_D8;          // PB0
+        case 9:  return &_PORT_D9;          // PB1
+        case 10: return &_PORT_D10;         // PB2
+        case 11: return &_PORT_D11;         // PB3
+        case 12: return &_PORT_D12;         // PB4
+        case 13: return &_PORT_D13;         // PB5
+        case 14: return &_PORT_D14;         // PC0
+        case 15: return &_PORT_D15;         // PC1
+        case 16: return &_PORT_D16;         // PC2
+        case 17: return &_PORT_D17;         // PC3
+        case 18: return &_PORT_D18;         // PC4
+        case 19: return &_PORT_D19;         // PC5
     }
 
     return 0;
