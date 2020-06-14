@@ -1,0 +1,4 @@
+LIBS += USART
+
+SOURCES += \
+	USART/USART.cpp
