@@ -1,4 +1,0 @@
-LIBS += LCD
-
-SOURCES += \
-	LCD/LCD.cpp
