@@ -123,9 +123,61 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-#ifndef BOARD_MEGA_H
-#define BOARD_MEGA_H
+#include <USART/USART_BufferOut.h>
+
+#include <stdlib.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // BOARD_MEGA_H
+USART_BufferOut::USART_BufferOut( USART *usart, uint8_t size ) :
+    _size ( size ),
+
+    _usart ( usart ),
+
+    _buffer ( (uint8_t*)malloc( size * sizeof(uint8_t) ) ),
+    _data   ( (uint8_t*)malloc( size * sizeof(uint8_t) ) ),
+
+    _byte ( 0 )
+{
+    for ( uint8_t i = 0; i < _size; i++ )
+    {
+        _buffer[ i ] = 0b0;
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+USART_BufferOut::~USART_BufferOut()
+{
+    free( _buffer );
+    free( _data   );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void USART_BufferOut::send()
+{
+    _usart->sendByte( _buffer[ _byte ] );
+
+    _byte++;
+
+    if ( _byte == _size )
+    {
+        _byte = 0;
+
+        for ( uint8_t i = 0; i < _size; i++ )
+        {
+            _buffer[ i ] = _data[ i ];
+        }
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void USART_BufferOut::setData( const uint8_t *data )
+{
+    for ( uint8_t i = 0; i < _size; i++ )
+    {
+        _data[ i ] = data[ i ];
+    }
+}

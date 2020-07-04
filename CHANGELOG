@@ -1,3 +1,11 @@
+2020-07-04 Marek M. Cel <marekcel@marekcel.pl>
+    
+    * USART input and output buffers
+    
+    * renaming LCD module
+
+
+
 2020-06-14 Marek M. Cel <marekcel@marekcel.pl>
     
     * initial commit

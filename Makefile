@@ -25,10 +25,10 @@ SOURCES = \
 ################################################################################
 
 include common/Makefile.inc
-# include EEPROM/Makefile.inc
-# include Encoder/Makefile.inc
-# include LCD/Makefile.inc
-# include USART/Makefile.inc
+include EEPROM/Makefile.inc
+include Encoder/Makefile.inc
+include HD44780/Makefile.inc
+include USART/Makefile.inc
 
 ################################################################################
 
@@ -55,12 +55,12 @@ cppfiles: $(SOURCES:.cpp=.o)
 ################################################################################
 
 install: all
-	for PORT in /dev/ttyACM0 /dev/ttyACM1 /dev/ttyUSB0 /dev/ttyUSB1; do \
+	@for PORT in /dev/ttyACM0 /dev/ttyACM1 /dev/ttyUSB0 /dev/ttyUSB1; do \
 		if ( test -e $$PORT ); then \
 			if ( test $(BOARD_ID) -eq 3 ); then \
 				stty -F $$PORT ispeed 1200 ospeed 1200 && avrdude -v -v -v -v -c $(PROGRAMMER) -p $(PART) -P $$PORT -D -U flash:w:$(TARGET); \
 			else \
-				avrdude -v -v -v -v -c $(PROGRAMMER) -p $(PART) -P $$PORT -D -U flash:w:$(TARGET); \
+				avrdude -v -v -v -v -c $(PROGRAMMER) -p $(PART) -P $$PORT -b$(BAUD_RATE) -D -U flash:w:$(TARGET); \
 			fi; \
 			break; \
 		fi \

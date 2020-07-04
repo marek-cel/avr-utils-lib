@@ -129,24 +129,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-PinNo getDigitalPinFromAnalog( PinNo analog_pin )
-{
-    switch ( analog_pin )
-    {
-        case 0: return 14;
-        case 1: return 15;
-        case 2: return 16;
-        case 3: return 17;
-        case 4: return 18;
-        case 5: return 19;
-    }
-
-    return NOT_A_PIN;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-BitMask getPinBitMask( PinNo pin )
+BitMsk getBitMask( PinNum pin )
 {
     switch( pin )
     {
@@ -177,7 +160,7 @@ BitMask getPinBitMask( PinNo pin )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-uint8_t getPCIE( PinNo pin )
+BitMsk getPCIE( PinNum pin )
 {
     switch( pin )
     {
@@ -208,7 +191,7 @@ uint8_t getPCIE( PinNo pin )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-uint8_t getPCINT( PinNo pin )
+BitMsk getPCINT( PinNum pin )
 {
     switch( pin )
     {
@@ -239,7 +222,7 @@ uint8_t getPCINT( PinNo pin )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-PtrDDR getRegDDR( PinNo pin )
+PtrReg getRegDDR( PinNum pin )
 {
     switch( pin )
     {
@@ -270,7 +253,7 @@ PtrDDR getRegDDR( PinNo pin )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-PtrPCMSK getRegPCMSK( PinNo pin )
+PtrReg getRegPCMSK( PinNum pin )
 {
     switch( pin )
     {
@@ -301,7 +284,7 @@ PtrPCMSK getRegPCMSK( PinNo pin )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-PtrPIN getRegPIN( PinNo pin )
+PtrReg getRegPIN( PinNum pin )
 {
     switch( pin )
     {
@@ -332,7 +315,7 @@ PtrPIN getRegPIN( PinNo pin )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-PtrPORT getRegPORT( PinNo pin )
+PtrReg getRegPORT( PinNum pin )
 {
     switch( pin )
     {
@@ -359,6 +342,23 @@ PtrPORT getRegPORT( PinNo pin )
     }
 
     return 0;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+PinNum getPinNumFromAnalog( PinNum analog_pin )
+{
+    switch ( analog_pin )
+    {
+        case 0: return 14;
+        case 1: return 15;
+        case 2: return 16;
+        case 3: return 17;
+        case 4: return 18;
+        case 5: return 19;
+    }
+
+    return NOT_A_PIN;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

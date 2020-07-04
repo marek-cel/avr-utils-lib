@@ -128,4 +128,128 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <avr/interrupt.h>
+#include <avr/io.h>
+
+#include <common/types.h>
+
+////////////////////////////////////////////////////////////////////////////////
+
+#define BUILT_IN_LED_PIN_NO 13
+
+////////////////////////////////////////////////////////////////////////////////
+
+#define _DDR_D0     DDRD    /* 0  - PD2 */
+#define _DDR_D1     DDRD    /* 1  - PD3 */
+#define _DDR_D2     DDRD    /* 2  - PD1 */
+#define _DDR_D3     DDRD    /* 3  - PD0 */
+#define _DDR_D4     DDRD    /* 4  - PD4 */
+#define _DDR_D5     DDRC    /* 5  - PC6 */
+#define _DDR_D6     DDRD    /* 6  - PD7 */
+#define _DDR_D7     DDRE    /* 7  - PE6 */
+#define _DDR_D8     DDRB    /* 8  - PB4 */
+#define _DDR_D9     DDRB    /* 9  - PB5 */
+#define _DDR_D10    DDRB    /* 10 - PB6 */
+#define _DDR_D11    DDRB    /* 11 - PB7 */
+#define _DDR_D12    DDRD    /* 12 - PD6 */
+#define _DDR_D13    DDRC    /* 13 - PC7 */
+#define _DDR_D14    DDRB    /* 14 - PB3 - MISO */
+#define _DDR_D15    DDRB    /* 15 - PB1 - SCK  */
+#define _DDR_D16    DDRB    /* 16 - PB2 - MOSI */
+#define _DDR_D17    DDRB    /* 17 - PB0 - SS   */
+#define _DDR_D18    DDRF    /* 18 - PF7 - A0 */
+#define _DDR_D19    DDRF    /* 19 - PF6 - A1 */
+#define _DDR_D20    DDRF    /* 20 - PF5 - A2 */
+#define _DDR_D21    DDRF    /* 21 - PF4 - A3 */
+#define _DDR_D22    DDRF    /* 22 - PF1 - A4 */
+#define _DDR_D23    DDRF    /* 23 - PF0 - A5 */
+
+#define _PCIE_D8    PCIE0   /* 8  - PB4 */
+#define _PCIE_D9    PCIE0   /* 9  - PB5 */
+#define _PCIE_D10   PCIE0   /* 10 - PB6 */
+#define _PCIE_D11   PCIE0   /* 11 - PB7 */
+#define _PCIE_D14   PCIE0   /* 14 - PB3 - MISO */
+#define _PCIE_D15   PCIE0   /* 15 - PB1 - SCK  */
+#define _PCIE_D16   PCIE0   /* 16 - PB2 - MOSI */
+#define _PCIE_D17   PCIE0   /* 17 - PB0 - SS   */
+
+#define _PCINT_D8   PCINT4  /* 8  - PB4 */
+#define _PCINT_D9   PCINT5  /* 9  - PB5 */
+#define _PCINT_D10  PCINT6  /* 10 - PB6 */
+#define _PCINT_D11  PCINT7  /* 11 - PB7 */
+#define _PCINT_D14  PCINT3  /* 14 - PB3 - MISO */
+#define _PCINT_D15  PCINT1  /* 15 - PB1 - SCK  */
+#define _PCINT_D16  PCINT2  /* 16 - PB2 - MOSI */
+#define _PCINT_D17  PCINT0  /* 17 - PB0 - SS   */
+
+#define _PCMSK_D8   PCMSK0  /* 8  - PB4 */
+#define _PCMSK_D9   PCMSK0  /* 9  - PB5 */
+#define _PCMSK_D10  PCMSK0  /* 10 - PB6 */
+#define _PCMSK_D11  PCMSK0  /* 11 - PB7 */
+#define _PCMSK_D14  PCMSK0  /* 14 - PB3 - MISO */
+#define _PCMSK_D15  PCMSK0  /* 15 - PB1 - SCK  */
+#define _PCMSK_D16  PCMSK0  /* 16 - PB2 - MOSI */
+#define _PCMSK_D17  PCMSK0  /* 17 - PB0 - SS   */
+
+#define _PIN_D0     PIND    /* 0  - PD2 */
+#define _PIN_D1     PIND    /* 1  - PD3 */
+#define _PIN_D2     PIND    /* 2  - PD1 */
+#define _PIN_D3     PIND    /* 3  - PD0 */
+#define _PIN_D4     PIND    /* 4  - PD4 */
+#define _PIN_D5     PINC    /* 5  - PC6 */
+#define _PIN_D6     PIND    /* 6  - PD7 */
+#define _PIN_D7     PINE    /* 7  - PE6 */
+#define _PIN_D8     PINB    /* 8  - PB4 */
+#define _PIN_D9     PINB    /* 9  - PB5 */
+#define _PIN_D10    PINB    /* 10 - PB6 */
+#define _PIN_D11    PINB    /* 11 - PB7 */
+#define _PIN_D12    PIND    /* 12 - PD6 */
+#define _PIN_D13    PINC    /* 13 - PC7 */
+#define _PIN_D14    PINB    /* 14 - PB3 - MISO */
+#define _PIN_D15    PINB    /* 15 - PB1 - SCK  */
+#define _PIN_D16    PINB    /* 16 - PB2 - MOSI */
+#define _PIN_D17    PINB    /* 17 - PB0 - SS   */
+#define _PIN_D18    PINF    /* 18 - PF7 - A0 */
+#define _PIN_D19    PINF    /* 19 - PF6 - A1 */
+#define _PIN_D20    PINF    /* 20 - PF5 - A2 */
+#define _PIN_D21    PINF    /* 21 - PF4 - A3 */
+#define _PIN_D22    PINF    /* 22 - PF1 - A4 */
+#define _PIN_D23    PINF    /* 23 - PF0 - A5 */
+
+#define _PORT_D0    PORTD   /* 0  - PD2 */
+#define _PORT_D1    PORTD   /* 1  - PD3 */
+#define _PORT_D2    PORTD   /* 2  - PD1 */
+#define _PORT_D3    PORTD   /* 3  - PD0 */
+#define _PORT_D4    PORTD   /* 4  - PD4 */
+#define _PORT_D5    PORTC   /* 5  - PC6 */
+#define _PORT_D6    PORTD   /* 6  - PD7 */
+#define _PORT_D7    PORTE   /* 7  - PE6 */
+#define _PORT_D8    PORTB   /* 8  - PB4 */
+#define _PORT_D9    PORTB   /* 9  - PB5 */
+#define _PORT_D10   PORTB   /* 10 - PB6 */
+#define _PORT_D11   PORTB   /* 11 - PB7 */
+#define _PORT_D12   PORTD   /* 12 - PD6 */
+#define _PORT_D13   PORTC   /* 13 - PC7 */
+#define _PORT_D14   PORTB   /* 14 - PB3 - MISO */
+#define _PORT_D15   PORTB   /* 15 - PB1 - SCK  */
+#define _PORT_D16   PORTB   /* 16 - PB2 - MOSI */
+#define _PORT_D17   PORTB   /* 17 - PB0 - SS   */
+#define _PORT_D18   PORTF   /* 18 - PF7 - A0 */
+#define _PORT_D19   PORTF   /* 19 - PF6 - A1 */
+#define _PORT_D20   PORTF   /* 20 - PF5 - A2 */
+#define _PORT_D21   PORTF   /* 21 - PF4 - A3 */
+#define _PORT_D22   PORTF   /* 22 - PF1 - A4 */
+#define _PORT_D23   PORTF   /* 23 - PF0 - A5 */
+
+////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * @brief Returns digital pin number of a given analog pin number.
+ * @param analog_pin analog pin number
+ * @return digital pin number
+ */
+PinNum getPinNumFromAnalog( PinNum analog_pin );
+
+////////////////////////////////////////////////////////////////////////////////
+
 #endif // BOARD_LEONARDO_H

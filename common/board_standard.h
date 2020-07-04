@@ -282,7 +282,7 @@
  * @param analog_pin analog pin number
  * @return digital pin number
  */
-PinNo getPinNoFromAnalog( PinNo analog_pin );
+PinNum getPinNumFromAnalog( PinNum analog_pin );
 
 ////////////////////////////////////////////////////////////////////////////////
 

@@ -132,14 +132,10 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-typedef uint8_t PinNo;
+typedef uint8_t BitMsk;             ///< bit mask
+typedef uint8_t PinNum;             ///< pin number
 
-typedef volatile uint8_t* PtrPIN;
-typedef volatile uint8_t* PtrPORT;
-typedef volatile uint8_t* PtrDDR;
-typedef volatile uint8_t* PtrPCMSK;
-
-typedef uint8_t  BitMask;
+typedef volatile uint8_t* PtrReg;   ///< register pointer
 
 ////////////////////////////////////////////////////////////////////////////////
 

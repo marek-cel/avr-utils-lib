@@ -132,14 +132,74 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void enablePCINT( PinNo pin )
+void enablePCINT( PinNum pin )
 {
-    PtrPCMSK ptrPCMSK = getRegPCMSK( pin );
+    PtrReg ptrPCMSK = getRegPCMSK( pin );
 
     if ( ptrPCMSK )
     {
         PCICR |= getPCIE( pin );
         (*ptrPCMSK) |= getPCINT( pin );
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void enableTIMER0( uint8_t cv )
+{
+    TCCR0A = 0;
+    TCCR0B = 0;
+    TCNT0  = 0;
+
+    OCR0A = cv;
+
+    // turn on CTC mode
+    TCCR0A |= (1 << WGM01);
+
+    // Set CS01 and CS00 bits for 64 prescaler
+    TCCR0B |= (1 << CS01) | (1 << CS00);
+
+    // enable timer compare interrupt
+    TIMSK0 |= (1 << OCIE0A);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void enableTIMER1( uint16_t cv )
+{
+    TCCR1A = 0;
+    TCCR1B = 0;
+    TCNT1  = 0;
+
+    OCR1A = cv;
+
+    // turn on CTC mode
+    TCCR1B |= ( 1 << WGM12 );
+
+    // Set CS10 and CS12 bits for 1024 prescaler
+    TCCR1B |= ( 1 << CS12 ) | ( 1 << CS10 );
+
+    // enable timer compare interrupt
+    TIMSK1 |= ( 1 << OCIE1A );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void enableTIMER2( uint8_t cv )
+{
+    TCCR2A = 0;
+    TCCR2B = 0;
+    TCNT2  = 0;
+
+    OCR2A = cv;
+
+    // turn on CTC mode
+    TCCR2A |= ( 1 << WGM21 );
+
+    // Set CS21 bit for 8 prescaler
+    TCCR2B |= ( 1 << CS21 );
+
+    // enable timer compare interrupt
+    TIMSK2 |= ( 1 << OCIE2A );
 }
 

@@ -141,4 +141,6 @@ int main()
         _delay_ms( 100 );
         setPinState( BUILT_IN_LED_PIN_NO, STATE_LOW );
     }
+    
+    return 0;
 }

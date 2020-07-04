@@ -123,8 +123,8 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-#ifndef LCD_H
-#define LCD_H
+#ifndef HD44780_H
+#define HD44780_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -135,15 +135,15 @@
 /**
  * HD44780 liquid display driver interface class.
  */
-class LCD
+class HD44780
 {
 public:
 
     /**
      * Constructor.
      */
-    LCD( uint8_t pinRS, uint8_t pinEN,
-         uint8_t pinD4, uint8_t pinD5, uint8_t pinD6, uint8_t pinD7 );
+    HD44780( uint8_t pinRS, uint8_t pinEN,
+             uint8_t pinD4, uint8_t pinD5, uint8_t pinD6, uint8_t pinD7 );
 
     /** Initializes LCD. */
     void init();
@@ -186,4 +186,4 @@ private:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // LCD_H
+#endif // HD44780_H

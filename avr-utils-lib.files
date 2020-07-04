@@ -2,8 +2,8 @@ common/all.h
 common/board.h
 common/board_leonardo.h
 common/board_leonardo.cpp
-common/board_mega.h
-common/board_mega.cpp
+common/board_mega2560.h
+common/board_mega2560.cpp
 common/board_standard.h
 common/board_standard.cpp
 common/defs.h
@@ -19,10 +19,14 @@ EEPROM/EEPROM.cpp
 Encoder/Encoder.h
 Encoder/Encoder.cpp
 
-LCD/LCD.h
-LCD/LCD.cpp
+HD44780/HD44780.h
+HD44780/HD44780.cpp
 
 USART/USART.h
 USART/USART.cpp
+USART/USART_BufferInp.h
+USART/USART_BufferInp.cpp
+USART/USART_BufferOut.h
+USART/USART_BufferOut.cpp
 
 main.cpp

@@ -140,21 +140,21 @@
  * @param pin digital pin number
  * @param mode pin mode
  */
-void setPinMode( PinNo pin, uint8_t mode );
+void setPinMode( PinNum pin, uint8_t mode );
 
 /**
  * @brief getDigitalPinState
  * @param pin digital pin number
  * @return pin state
  */
-uint8_t getPinState( PinNo pin );
+uint8_t getPinState( PinNum pin );
 
 /**
  * @brief Sets digital pin state.
  * @param pin digital pin number
  * @param state pin state
  */
-void setPinState( PinNo pin, uint8_t state );
+void setPinState( PinNum pin, uint8_t state );
 
 ////////////////////////////////////////////////////////////////////////////////
 

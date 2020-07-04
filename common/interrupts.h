@@ -136,7 +136,25 @@
  * @brief Enables PCINT interrupt of a given digital pin.
  * @param pin digital pin number
  */
-void enablePCINT( PinNo pin );
+void enablePCINT( PinNum pin );
+
+/**
+ * @brief Enables TIMER0 interrupt.
+ * @param cv compare value
+ */
+void enableTIMER0( uint8_t cv );
+
+/**
+ * @brief Enables TIMER1 interrupt.
+ * @param cv compare value
+ */
+void enableTIMER1( uint16_t cv );
+
+/**
+ * @brief Enables TIMER2 interrupt.
+ * @param cv compare value
+ */
+void enableTIMER2( uint8_t cv );
 
 ////////////////////////////////////////////////////////////////////////////////
 

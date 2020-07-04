@@ -137,8 +137,8 @@
 #   include <common/board_leonardo.h>
 #endif
 
-#if BOARD_ID == ARDUINO_MEGA
-#   include <common/board_mega.h>
+#if BOARD_ID == ARDUINO_MEGA2560
+#   include <common/board_mega2560.h>
 #endif
 
 #if BOARD_ID == ARDUINO_UNO || BOARD_ID == ARDUINO_NANO
@@ -152,49 +152,49 @@
  * @param pin digital pin number
  * @return bit mask
  */
-BitMask getPinBitMask( PinNo pin );
+BitMsk getBitMask( PinNum pin );
 
 /**
  * @brief Returns PCINT bit of a given digital pin number.
  * @param pin digital pin number
  * @return PCINT bit
  */
-BitMask getPCINT( PinNo pin );
+BitMsk getPCINT( PinNum pin );
 
 /**
  * @brief Returns PCIE bit of a given digital pin number.
  * @param pin digital pin number
  * @return PCIE bit
  */
-BitMask getPCIE( PinNo pin );
+BitMsk getPCIE( PinNum pin );
 
 /**
  * @brief Returns Data Direction Register (DDR) pointer of a given digital pin number.
  * @param pin digital pin number
  * @return DDR register pointer
  */
-PtrDDR getRegDDR( PinNo pin );
+PtrReg getRegDDR( PinNum pin );
 
 /**
  * @brief Returns PCMSK register pointer of a given digital pin number.
  * @param pin digital pin number
  * @return PCMSK register pointer
  */
-PtrPCMSK getRegPCMSK( PinNo pin );
+PtrReg getRegPCMSK( PinNum pin );
 
 /**
  * @brief Returns PIN register pointer of a given digital pin number.
  * @param pin digital pin number
  * @return PIN register pointer
  */
-PtrPIN getRegPIN( PinNo pin );
+PtrReg getRegPIN( PinNum pin );
 
 /**
  * @brief Returns PORT register pointer of a given digital pin number.
  * @param pin digital pin number
  * @return PORT register pointer
  */
-PtrPORT getRegPORT( PinNo pin );
+PtrReg getRegPORT( PinNum pin );
 
 ////////////////////////////////////////////////////////////////////////////////
 

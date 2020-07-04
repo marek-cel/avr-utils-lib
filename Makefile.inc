@@ -2,20 +2,21 @@
 # Uno
 ################################################################################
 
-BOARD_ID = 1
-MCU = atmega328p
-PART = m328p
-PINS_CPP_DIR = variants/standard/
-PROGRAMMER = arduino
+# BOARD_ID = 1
+# MCU = atmega328p
+# PART = m328p
+# PROGRAMMER = arduino
+# BAUD_RATE = 115200
 
 ################################################################################
 # Nano
 ################################################################################
 
-# BOARD_ID = 2
-# MCU = atmega328p
-# PART = m328p
-# PROGRAMMER = arduino
+BOARD_ID = 2
+MCU = atmega328p
+PART = m328p
+PROGRAMMER = arduino
+BAUD_RATE = 57600
 
 ################################################################################
 # Leonardo

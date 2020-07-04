@@ -128,11 +128,11 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void setPinMode( PinNo pin, uint8_t mode )
+void setPinMode( PinNum pin, uint8_t mode )
 {
-    PtrDDR  ptrDDR  = getRegDDR  ( pin );
-    PtrPORT ptrPORT = getRegPORT ( pin );
-    BitMask bitMask = getPinBitMask( pin );
+    PtrReg ptrDDR  = getRegDDR  ( pin );
+    PtrReg ptrPORT = getRegPORT ( pin );
+    BitMsk bitMask = getBitMask ( pin );
 
     if ( ptrDDR && ptrPORT )
     {
@@ -158,13 +158,13 @@ void setPinMode( PinNo pin, uint8_t mode )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-uint8_t getPinState( PinNo pin )
+uint8_t getPinState( PinNum pin )
 {
-    PtrPIN ptrPIN = getRegPIN( pin );
+    PtrReg ptrPIN = getRegPIN( pin );
 
     if ( ptrPIN )
     {
-        BitMask bitMask = getPinBitMask( pin );
+        BitMsk bitMask = getBitMask( pin );
 
         if ( (*ptrPIN) & bitMask )
         {
@@ -177,13 +177,13 @@ uint8_t getPinState( PinNo pin )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void setPinState( PinNo pin, uint8_t state )
+void setPinState( PinNum pin, uint8_t state )
 {
-    PtrPORT ptrPORT = getRegPORT( pin );
+    PtrReg ptrPORT = getRegPORT( pin );
 
     if ( ptrPORT )
     {
-        BitMask bitMask = getPinBitMask( pin );
+        BitMsk bitMask = getBitMask( pin );
 
         if ( state )
         {

@@ -123,10 +123,44 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-#include <common/pins.h>
-
-#if BOARD_ID == ARDUINO_MEGA
+#ifndef USART_BUFFEROUT_H
+#define USART_BUFFEROUT_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif
+#include <USART/USART.h>
+
+////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * USART output buffer.
+ */
+class USART_BufferOut
+{
+public:
+
+    /** Constructor. */
+    USART_BufferOut( USART *usart, uint8_t size = 1 );
+
+    /** Destructor. */
+    ~USART_BufferOut();
+
+    void send();
+
+    void setData( const uint8_t *data );
+
+private:
+
+    const uint8_t _size;    ///< size of data
+
+    USART *_usart;          ///< USART object pointer
+
+    uint8_t *_buffer;       ///< temporary buffer
+    uint8_t *_data;         ///< last received data
+
+    uint8_t _byte;          ///< current byte
+};
+
+////////////////////////////////////////////////////////////////////////////////
+
+#endif // USART_BUFFEROUT_H

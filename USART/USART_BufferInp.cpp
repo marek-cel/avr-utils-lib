@@ -123,35 +123,61 @@
  *     party to this document and has no duty or obligation with respect to
  *     this CC0 or use of the Work.
  ******************************************************************************/
-#ifndef DEFS_H
-#define DEFS_H
+#include <USART/USART_BufferInp.h>
+
+#include <stdlib.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define ARDUINO_UNO      1
-#define ARDUINO_NANO     2
-#define ARDUINO_LEONARDO 3
-#define ARDUINO_MEGA2560 4
+USART_BufferInp::USART_BufferInp( USART *usart, uint8_t size ) :
+    _size ( size ),
 
-#ifndef BOARD_ID
-#   define BOARD_ID ARDUINO_UNO
-#endif
+    _usart ( usart ),
 
-////////////////////////////////////////////////////////////////////////////////
+    _buffer ( (uint8_t*)malloc( size * sizeof(uint8_t) ) ),
+    _data   ( (uint8_t*)malloc( size * sizeof(uint8_t) ) ),
 
-#define NOT_A_PIN 0xff
-
-////////////////////////////////////////////////////////////////////////////////
-
-#define MODE_INPUT  0x1
-#define MODE_OUTPUT 0x2
-#define MODE_PULLUP 0x4
+    _byte ( 0 )
+{
+    for ( uint8_t i = 0; i < _size; i++ )
+    {
+        _data[ i ] = 0b0;
+    }
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define STATE_LOW  0
-#define STATE_HIGH 1
+USART_BufferInp::~USART_BufferInp()
+{
+    free( _buffer );
+    free( _data   );
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // DEFS_H
+void USART_BufferInp::recv()
+{
+    _buffer[ _byte ] = _usart->getData();
+
+    _byte++;
+
+    if ( _byte == _size )
+    {
+        _byte = 0;
+
+        for ( uint8_t i = 0; i < _size; i++ )
+        {
+            _data[ i ] = _buffer[ i ];
+        }
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void USART_BufferInp::getData( uint8_t *data ) const
+{
+    for ( uint8_t i = 0; i < _size; i++ )
+    {
+        data[ i ] = _data[ i ];
+    }
+}

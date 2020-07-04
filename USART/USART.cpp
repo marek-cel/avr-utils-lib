@@ -130,44 +130,68 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-USART::USART()
-{
-    // TODO
-}
+USART::USART( PtrReg ubrrh, PtrReg ubrrl,
+              PtrReg ucsra, PtrReg ucsrb, PtrReg ucsrc,
+              PtrReg udr ) :
+    _ubrrh ( ubrrh ),
+    _ubrrl ( ubrrl ),
+    _ucsra ( ucsra ),
+    _ucsrb ( ucsrb ),
+    _ucsrc ( ucsrc ),
+    _udr   ( udr )
+{}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void USART::init( unsigned int ubrr )
+void USART::init( unsigned int ubrr, uint8_t interrupt )
 {
-    // set baud rate
-    UBRR0H = (unsigned char)( ubrr >> 8 );
-    UBRR0L = (unsigned char)( ubrr );
+    (*_ubrrh) = (uint8_t)( ubrr >> 8 );
+    (*_ubrrl) = (uint8_t)( ubrr );
+
+    // 8-bits of data
+    (*_ucsrc) |= _BV( UCSZ01 );
+    (*_ucsrc) |= _BV( UCSZ00 );
+
+    // one stop bit
+    //(*_ucsrc) &= ~_BV( USBS0 );
+
+    // asyncrounous USART
+    //(*_ucsrc) &= ~_BV( UMSEL01 );
+    //(*_ucsrc) &= ~_BV( UMSEL00 );
+
+    // no parity bit
+    //(*_ucsrc) &= ~_BV( UPM01 );
+    //(*_ucsrc) &= ~_BV( UPM00 );
 
     // enable receiver and transmitter
-    UCSR0B = ( 1 << RXEN0 ) | ( 1 << TXEN0 );
+    (*_ucsrb) |= _BV( RXEN0 );
+    (*_ucsrb) |= _BV( TXEN0 );
 
-    // set frame: 8data, 1 stp
-    UCSR0C = ( 1 << UCSZ01 ) | ( 1 << UCSZ00 );
+    if ( interrupt )
+    {
+        // interrupt on receive
+        (*_ucsrb) |= _BV( RXCIE0 );
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void USART::send( const uint8_t &data )
+void USART::sendByte( uint8_t data )
 {
     // wait for empty transmit buffer
-    while ( !( UCSR0A & ( 1 << UDRE0 ) ) );
+    while( !( (*_ucsra) & _BV( UDRE0 ) ) ) { ; }
 
-    // Put data into buffer, sends the data
-    UDR0 << data;
+    // put data into buffer, sends the data
+    (*_udr) = data;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-uint8_t USART::recv()
+uint8_t USART::recvByte()
 {
     // wait for data to be received
-    while ( !( UCSR0A & ( 1 << RXC0 ) ) );
+    while ( !( (*_ucsra) & ( 1 << RXC0 ) ) ) { ; }
 
     // get and return received data from buffer
-    return UDR0;
+    return (*_udr);
 }

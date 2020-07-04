@@ -130,23 +130,123 @@
 
 #include <stdint.h>
 
+#include <common/types.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 /**
- * USART
+ * Universal Synchronous Asynchronous Receiver-Transmitter (USART) interface class.
  */
 class USART
 {
 public:
 
-    USART();
+    /** Constructor. */
+    USART( PtrReg ubrrh, PtrReg ubrrl,
+           PtrReg ucsra, PtrReg ucsrb, PtrReg ucsrc,
+           PtrReg udr );
 
-    void init( unsigned int ubrr );
+    /**
+     * @brief Initializes USART.
+     * @param ubrr baud prescale
+     */
+    void init( unsigned int ubrr, uint8_t interrupt = 0 );
 
-    void send( const uint8_t &data );
+    /**
+     * @brief Waits for empty transmit buffer and sends data.
+     * @param data data to be sent
+     */
+    void sendByte( uint8_t data );
 
-    uint8_t recv();
+    /**
+     * @brief Returns received data from buffer
+     * @return received data
+     */
+    uint8_t recvByte();
+
+    /**
+     * @brief Returns raw data from register
+     * @return raw data
+     */
+    inline uint8_t getData() const { return (*_udr); }
+
+private:
+
+    const PtrReg _ubrrh;    ///<
+    const PtrReg _ubrrl;    ///<
+
+    const PtrReg _ucsra;    ///<
+    const PtrReg _ucsrb;    ///<
+    const PtrReg _ucsrc;    ///<
+
+    const PtrReg _udr;      ///<
 };
+
+////////////////////////////////////////////////////////////////////////////////
+
+#if defined(UBRRH) && defined(UBRRL)
+class USART0 : public USART
+{
+public:
+
+    /** Constructor. */
+    USART0() :
+        USART( &UBRRH, &UBRRL, &UCSRA, &UCSRB, &UCSRC, &UDR )
+    {}
+};
+#elif defined(UBRR0H) && defined(UBRR0L)
+class USART0 : public USART
+{
+public:
+
+    /** Constructor. */
+    USART0() :
+        USART( &UBRR0H, &UBRR0L, &UCSR0A, &UCSR0B, &UCSR0C, &UDR0 )
+    {}
+};
+#endif
+
+////////////////////////////////////////////////////////////////////////////////
+
+#if defined(UBRR1H) && defined(UBRR1L)
+class USART1 : public USART
+{
+public:
+
+    /** Constructor. */
+    USART1() :
+        USART( &UBRR1H, &UBRR1L, &UCSR1A, &UCSR1B, &UCSR1C, &UDR1 )
+    {}
+};
+#endif
+
+////////////////////////////////////////////////////////////////////////////////
+
+#if defined(UBRR2H) && defined(UBRR2L)
+class USART2 : public USART
+{
+public:
+
+    /** Constructor. */
+    USART2() :
+        USART( &UBRR2H, &UBRR2L, &UCSR2A, &UCSR2B, &UCSR2C, &UDR2 )
+    {}
+};
+#endif
+
+////////////////////////////////////////////////////////////////////////////////
+
+#if defined(UBRR3H) && defined(UBRR3L)
+class USART3 : public USART
+{
+public:
+
+    /** Constructor. */
+    USART3() :
+        USART( &UBRR3H, &UBRR3L, &UCSR3A, &UCSR3B, &UCSR3C, &UDR3 )
+    {}
+};
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 
